@@ -13,7 +13,7 @@
             </div>
             <div class="card-body">
                 <form method="post" enctype="multipart/form-data">{% csrf_token %}
-        <div class="row">
+            <div class="row">
             <div class="col-6">
                 {{form.title|as_crispy_field }}
             </div>
@@ -30,15 +30,20 @@
                 {{form.thumbnail|as_crispy_field }}
                 {{form.publish|as_crispy_field }}
             </div>
-            <div class="col-6">
-                {{form.author|as_crispy_field}}
-            </div>
-            <div class="col-6">
-                {{form.status|as_crispy_field }}
-            </div>
+            {% if user.is_superuser %}
+                <div class="col-6">
+                    {{form.author|as_crispy_field}}
+                </div>
+                <div class="col-6">
+                    {{form.status|as_crispy_field }}
+                </div>
+            {% endif %}
         </div>
         <button class="btn btn-success">ارسال مقاله</button>
-    </form>
+        {% if user.is_superuser and request.resolver_match.kwargs.pk %}
+            <a href="{% url 'account:article_delete' request.resolver_match.kwargs.pk %}" class="btn btn-danger">حذف</a>
+        {% endif %}
+                </form>
             </div>
         </div>
     </div>
