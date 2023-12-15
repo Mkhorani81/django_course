@@ -6,9 +6,10 @@ from django.shortcuts import get_object_or_404
 class FieldsMixin():
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_superuser:
-            self.fields = ['title', 'slug', 'category', 'description', 'thumbnail', 'publish', 'status', 'author']
+            self.fields = ['title', 'slug', 'category', 'description', 'thumbnail', 'publish', 'is_special', 'status',
+                           'author']
         elif request.user.is_author:
-            self.fields = ['title', 'slug', 'category', 'description', 'thumbnail', 'publish', ]
+            self.fields = ['title', 'slug', 'category', 'description', 'thumbnail', 'is_special', 'publish', ]
         else:
             raise Http404("You can't access to this page")
         return super().dispatch(request, *args, **kwargs)
